@@ -2,6 +2,7 @@ namespace AddressBook
 {
     public class Operations
     {
+        public static List<Person> Personlist = new List<Person>();
         public void addPerson()
         {
             Console.WriteLine("-------------Adding Operation-----------");
@@ -9,9 +10,28 @@ namespace AddressBook
             int n=Convert.ToInt32(Console.ReadLine());
             while(n>0)
             {
+                
                 Person person = new Person();
-                Console.WriteLine("Enter the first name of Person: ");
-                person.fname = Console.ReadLine();
+
+                try
+                {
+                    Console.WriteLine("Enter the first name of Person: ");
+                    
+                        person.fname = Console.ReadLine();
+                    if (person.fname.Equals(string.Empty))
+                        throw new ArgumentNullException("First name can not be empty.");
+                }
+                catch (NullReferenceException)
+                {
+                    throw new ArgumentNullException("First name can not be null.");
+                }
+
+               
+                bool duplicate = Personlist.Exists(e => e.fname == person.fname);
+                
+                    if (duplicate)
+                         throw new ArgumentNullException("Another person by the same name exists in the Address Book");
+
                 Console.WriteLine("Enter the last name of Person: ");
                 person.lname = Console.ReadLine();
                 Console.WriteLine("Enter the address of Person: ");
@@ -28,16 +48,18 @@ namespace AddressBook
                 person.mail = Console.ReadLine();
                 Console.WriteLine("\n");
 
-                Program.Personlist.Add(person);
+                Personlist.Add(person);
                 n--;
             }
             Console.WriteLine("\n");
         }
-        
+
+       
+
         public void display()
         {
             Console.WriteLine("-------------Display Operation-----------");
-            foreach (var p in Program.Personlist)
+            foreach (var p in Personlist)
             {
                 Console.WriteLine(p.fname);
                 Console.WriteLine(p.lname);
@@ -51,7 +73,7 @@ namespace AddressBook
             }
         }
 
-           public void edit()
+        public void edit()
         {
             Console.WriteLine("-------------Edit Operation-----------");
             Console.WriteLine("Enter a number to edit");
@@ -61,7 +83,7 @@ namespace AddressBook
             {
                 case 1: Console.WriteLine("enter firstname");
                         string cfname=Console.ReadLine();
-                       foreach(var p in Program.Personlist)
+                       foreach(var p in Personlist)
                        {
                         if (p.fname == cfname)
                         {
@@ -73,7 +95,10 @@ namespace AddressBook
                 case 2:
                     Console.WriteLine("enter lastname");
                     string clname = Console.ReadLine();
-                    foreach (var p in Program.Personlist)
+                   
+                       
+
+                    foreach (var p in Personlist)
                     {
                         if (p.lname == clname)
                         {
@@ -85,7 +110,7 @@ namespace AddressBook
                 case 3:
                     Console.WriteLine("enter address");
                     string caddr = Console.ReadLine();
-                    foreach (var p in Program.Personlist)
+                    foreach (var p in Personlist)
                     {
                         if (p.addr == caddr)
                         {
@@ -97,7 +122,7 @@ namespace AddressBook
                 case 4:
                     Console.WriteLine("enter city");
                     string ccity = Console.ReadLine();
-                    foreach (var p in Program.Personlist)
+                    foreach (var p in Personlist)
                     {
                         if (p.city == ccity)
                         {
@@ -109,7 +134,7 @@ namespace AddressBook
                 case 5:
                     Console.WriteLine("enter state");
                     string cstate = Console.ReadLine();
-                    foreach (var p in Program.Personlist)
+                    foreach (var p in Personlist)
                     {
                         if (p.state == cstate)
                         {
@@ -121,7 +146,7 @@ namespace AddressBook
                 case 6:
                     Console.WriteLine("enter zip");
                     string czip = Console.ReadLine();
-                    foreach (var p in Program.Personlist)
+                    foreach (var p in Personlist)
                     {
                         if (p.zip == czip)
                         {
@@ -133,7 +158,7 @@ namespace AddressBook
                 case 7:
                     Console.WriteLine("enter phone number");
                     string cphnumber = Console.ReadLine();
-                    foreach (var p in Program.Personlist)
+                    foreach (var p in Personlist)
                     {
                         if (p.phnumber == cphnumber)
                         {
@@ -145,7 +170,7 @@ namespace AddressBook
                 case 8:
                     Console.WriteLine("enter mail");
                     string cmail = Console.ReadLine();
-                    foreach (var p in Program.Personlist)
+                    foreach (var p in Personlist)
                     {
                         if (p.mail == cmail)
                         {
@@ -165,17 +190,16 @@ namespace AddressBook
             Console.WriteLine("-------------Delete Operation-----------");
             Console.WriteLine("enter the Person name which you want to delete :");
             string cfname= Console.ReadLine();
-            foreach (var p in Program.Personlist)
+            foreach (var p in Personlist)
             {
                 if (p.fname == cfname)
                 {
-                    Program.Personlist.Remove(p);
+                    Personlist.Remove(p);
                     break;
 
                 }
-           }
+            }
         }
-
     }
 
 }
