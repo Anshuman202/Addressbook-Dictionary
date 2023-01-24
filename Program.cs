@@ -31,7 +31,7 @@ namespace AddressBook
                         break;
                     case 4:
                         operations.delete();
-                        break;
+                        break; 
                     case 5:
                         z = 0;
                         break;
